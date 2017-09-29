@@ -1,0 +1,19 @@
+{
+  "name": "swagger-todos-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/fyodorvi/swagger-todos-backend.git",
+  "author": "fyodor <fedor.jj@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "compile": "node_modules/.bin/tsc",
+    "start": "yarn compile && node app/app.js"
+  },
+  "dependencies": {
+    "@types/restify": "^5.0.5",
+    "@types/restify-cors-middleware": "^1.0.0",
+    "restify": "^5.2.0",
+    "restify-cors-middleware": "^1.0.1",
+    "typescript": "^2.5.3"
+  }
+}
