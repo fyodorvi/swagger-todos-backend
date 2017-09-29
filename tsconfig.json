@@ -5,7 +5,7 @@
     "sourceMap": true,
     "removeComments": false,
     "moduleResolution": "node",
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "preserveConstEnums": true
   },
   "exclude": ["logs", "node_modules"]

@@ -1,0 +1,66 @@
+{{#imports}}
+/// <reference path="{{&.}}" />
+{{/imports}}
+/* tslint:disable:no-string-literal */
+/* tslint:disable:member-ordering */
+/* tslint:disable:quotemark */
+/* tslint:disable:typedef-whitespace */
+
+import {Server} from "restify";
+import * as restify from "restify";
+
+{{#definitions}}
+export class {{&name}} {{#tsType}}{{> type}}{{/tsType}}
+{{/definitions}}
+
+export interface I{{&className}}Controller {
+    {{#methods}}
+        {{&methodName}}(parameters:{ {{#parameters}}{{^isSingleton}}'{{&camelCaseName}}'{{&cardinality}}:{{> type}},{{/isSingleton}}{{/parameters}} }): Promise<{{&successfulResponseType}}>
+    {{/methods}}
+}
+
+export class {{&className}}Router {
+    private api: Server;
+
+    private restifyHttpMethods = {
+        POST: 'post',
+        GET: 'get',
+        DELETE: 'del',
+        PUT: 'put'
+    };
+
+    private controller: I{{&className}}Controller;
+
+    constructor(api: Server, controller: I{{&className}}Controller) {
+        this.api = api;
+        this.controller = controller;
+    }
+
+    registerRoutes() {
+        {{#methods}}
+        this.api[this.restifyHttpMethods['{{method}}']]('{{&path}}'.replace(/{(.*?)}/g, ':$1'), (req: restify.Request, res: restify.Response, next: restify.Next) => {
+            this.controller.{{&methodName}}({
+            {{#parameters}}
+                {{#isQueryParameter}}
+                    '{{&name}}': req.params['{{&name}}'],
+                {{/isQueryParameter}}
+                {{#isPathParameter}}
+                    '{{&name}}': req.params['{{&name}}'],
+                {{/isPathParameter}}
+                {{#isBodyParameter}}
+                    body: req.body,
+                {{/isBodyParameter}}
+            {{/parameters}}
+            }).then((result) => {
+                res.send(result);
+                next();
+            }).catch(() => {
+                res.send(500);
+                next();
+            });
+        });
+
+        {{/methods}}
+    }
+
+}

@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "compile": "node_modules/.bin/tsc",
+    "generate-api-interface": "node scripts/generate-api.js",
     "start": "yarn compile && node app/app.js"
   },
   "dependencies": {
@@ -14,6 +15,7 @@
     "@types/restify-cors-middleware": "^1.0.0",
     "restify": "^5.2.0",
     "restify-cors-middleware": "^1.0.1",
+    "swagger-typescript-codegen": "^1.2.0",
     "typescript": "^2.5.3"
   }
 }
